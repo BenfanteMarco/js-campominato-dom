@@ -47,6 +47,9 @@ function createNewGame(){
     const difficulty = document.getElementById('difficulty');
     // dichiaro variabile collegata alla value
     let level = parseInt(difficulty.value);
+
+    // costante delle bombe
+    const NUMBER_OF_BOMBS = 16;
     
     // selezione della difficoltà
     
@@ -75,6 +78,10 @@ function createNewGame(){
 
     // chiamata funzione che crea la grid
     createGrid(cellsNumber, cellsPerRow);
+
+    // array delle bombs
+    const bombs = generateBombsList(NUMBER_OF_BOMBS);
+    console.log(bombs);
 }
 
 // funzione che genera le bombe
@@ -87,6 +94,8 @@ function generateBombsList(NUMBER_OF_BOMBS){ // scritto in maiuscolo perchè è 
         // richiamo funzione che genera il numero unico
         bombs.push(generateUniqueNumber(bombs));
     }
+
+    return bombs;
 }
 
 // funzione che genera un numero UNICO casuale per le bombe
