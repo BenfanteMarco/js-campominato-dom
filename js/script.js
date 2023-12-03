@@ -42,6 +42,9 @@ function createNewGame(){
     // dichiaro i numberi dlle cell in base alla difficoltà
     let cellsNumber;
     let cellsPerRow;
+
+    // dichiaro variabile che non fa cliccare piu nulla una volta cliccata la bomba
+    let gameOver = false
     
     // utilizzio switch per la selezione del livello (rivedi a che serve switch) (switch serve per non utilizzare per forza if else)
     switch(level){
@@ -66,7 +69,7 @@ function createNewGame(){
     createGrid(cellsNumber, cellsPerRow);
     
     // array delle bombs
-    const bombs = generateBombsList(NUMBER_OF_BOMBS);
+    const bombs = generateBombsList(NUMBER_OF_BOMBS, cellsNumber);
     console.log(bombs);
 
     // funzione che crea la grid
@@ -77,22 +80,26 @@ function createNewGame(){
             let cell = createCell(i, cells_in_row);
     
             // quando clicchi la cell si colora (metterlo prima dell'appenChild)
-            cell.addEventListener('click', function(){
-                this.classList.add('clicked');
-                console.log('Cell number: ' + this.innerText)
-            })
+            // cell.addEventListener('click', function(){
+            //     this.classList.add('clicked');
+            //     console.log('Cell number: ' + this.innerText)
+            // })
     
             // bomb clicked red
             cell.addEventListener('click', function(){
-                if(!bombs.includes(i)){
-                    this.classList.add('clicked');
-                    // per i punti, si aggiungono punti ogni volta che si clicca sulla cell senza bomb
-                    points++
-
-                    // prendiamo l'h2 dall'html
-                    document.getElementById('score').innerText = `${points}`;
-                } else{
-                    this.classList.add('clicked-bomb');
+                // verifico il game over
+                if(gameOver == false){
+                    if(!bombs.includes(i)){
+                        this.classList.add('clicked');
+                        // per i punti, si aggiungono punti ogni volta che si clicca sulla cell senza bomb
+                        points++
+    
+                        // prendiamo l'h2 dall'html
+                        document.getElementById('score').innerText = `${points}`;
+                    } else{
+                        this.classList.add('clicked-bomb');
+                        gameOver = true;
+                    }
                 }
             })
     
@@ -104,27 +111,27 @@ function createNewGame(){
 }
 
 // funzione che genera le bombe
-function generateBombsList(NUMBER_OF_BOMBS){ // scritto in maiuscolo perchè è una costante il numero di bombe
+function generateBombsList(NUMBER_OF_BOMBS, totalCells){ // scritto in maiuscolo perchè è una costante il numero di bombe
     // array inizialmete vuoto
     let bombs = [];
 
     for(let i=0; i<NUMBER_OF_BOMBS; i++){
         // inserire nell'array vuoto un numero casuale
         // richiamo funzione che genera il numero unico
-        bombs.push(generateUniqueNumber(bombs));
+        bombs.push(generateUniqueNumber(bombs, totalCells));
     }
 
     return bombs;
 }
 
 // funzione che genera un numero UNICO casuale per le bombe
-function generateUniqueNumber(array_bombs){
+function generateUniqueNumber(array_bombs, totalCells){
     let checkNumber = false;
     let randomInt;
 
     while(checkNumber == false){ // oppure solo (!checkNumber)
         // genera numero
-        randomInt = Math.floor(Math.random() * 100 + 1);
+        randomInt = Math.floor(Math.random() * totalCells + 1);
 
         // verifico che il numero non sia uguale
         if(array_bombs.includes(randomInt) == false){
