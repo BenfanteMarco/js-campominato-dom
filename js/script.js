@@ -22,6 +22,10 @@ function createCell(num, cells_in_row){
 
 // funzione per generare la grid
 function createNewGame(){
+
+    // dichiaro variabile per i punti e parto da 0
+    let points = 0;
+
     // take grid from html
     const grid = document.getElementById('grid');
     
@@ -82,6 +86,11 @@ function createNewGame(){
             cell.addEventListener('click', function(){
                 if(!bombs.includes(i)){
                     this.classList.add('clicked');
+                    // per i punti, si aggiungono punti ogni volta che si clicca sulla cell senza bomb
+                    points++
+
+                    // prendiamo l'h2 dall'html
+                    document.getElementById('score').innerText = `${points}`;
                 } else{
                     this.classList.add('clicked-bomb');
                 }
