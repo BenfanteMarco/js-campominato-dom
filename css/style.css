@@ -37,3 +37,7 @@ body{
 .clicked{
     background-color: rgb(0, 191, 255);
 }
+
+.clicked-bomb{
+    background-color: rgb(170, 0, 0);
+}

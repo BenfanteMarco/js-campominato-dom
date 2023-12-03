@@ -20,24 +20,6 @@ function createCell(num, cells_in_row){
     return square
 }
 
-// funzione creo la grid
-function createGrid(cells_number, cells_in_row){
-    // crea la grid con le cell
-    for(let i=1; i<=cells_number; i++){
-        // create a cell
-        let cell = createCell(i, cells_in_row);
-
-        // quando clicchi la cell si colora (metterlo prima dell'appenChild)
-         cell.addEventListener('click', function(){
-            this.classList.add('clicked');
-            console.log('Cell number: ' + this.innerText)
-         })
-
-        // add cell to grid
-        grid.appendChild(cell); 
-    }
-}
-
 // funzione per generare la grid
 function createNewGame(){
     // take grid from html
@@ -75,13 +57,41 @@ function createNewGame(){
 
     // fare in modo che crea solo una griglia e non di più
     grid.innerHTML = '';
-
+    
     // chiamata funzione che crea la grid
     createGrid(cellsNumber, cellsPerRow);
-
+    
     // array delle bombs
     const bombs = generateBombsList(NUMBER_OF_BOMBS);
     console.log(bombs);
+
+    // funzione che crea la grid
+    function createGrid(cells_number, cells_in_row){
+        // crea la grid con le cell
+        for(let i=1; i<=cells_number; i++){
+            // create a cell
+            let cell = createCell(i, cells_in_row);
+    
+            // quando clicchi la cell si colora (metterlo prima dell'appenChild)
+            cell.addEventListener('click', function(){
+                this.classList.add('clicked');
+                console.log('Cell number: ' + this.innerText)
+            })
+    
+            // bomb clicked red
+            cell.addEventListener('click', function(){
+                if(!bombs.includes(i)){
+                    this.classList.add('clicked');
+                } else{
+                    this.classList.add('clicked-bomb');
+                }
+            })
+    
+            // add cell to grid
+            grid.appendChild(cell); 
+        }
+    }
+        
 }
 
 // funzione che genera le bombe
