@@ -46,3 +46,12 @@ body{
 .clicked-bomb{
     background-color: rgb(170, 0, 0);
 }
+
+#play{
+    border: 1px solid rgb(0, 0, 136);
+    background-color: rgb(0, 12, 175);
+}
+
+#play:hover{
+    background-color: rgba(0, 8, 255, 0.941);
+}
